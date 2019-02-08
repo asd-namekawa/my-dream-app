@@ -1,0 +1,49 @@
+<div class="col-md-6 user-container">
+  <h2 class="text-center">Add User</h2>
+  <form [formGroup]="addForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="username">User Name:</label>
+      <!-- 追加 -->
+      &nbsp;<div *ngIf="addForm.controls['username'].hasError('required')" class="badge badge-danger">this is required</div>
+      <!-- 追加 -->
+      <input type="text" formControlName="username" placeholder="username" name="username" class="form-control" id="username">
+    </div>
+
+    <div class="form-group">
+      <label for="password">Password:</label>
+      <!-- 追加 -->
+      &nbsp;
+      <div *ngIf="addForm.controls['password'].hasError('required')" class="badge badge-danger">this is required</div>
+      <div *ngIf="addForm.controls['password'].hasError('minlength')" class="badge badge-warning">this is min length 5</div>
+      <!-- 追加 -->
+      <input type="password" formControlName="password" placeholder="password" name="password" class="form-control" id="password">
+    </div>
+
+    <div class="form-group">
+      <label for="firstName">First Name:</label>
+      &nbsp;<div *ngIf="addForm.controls['firstName'].hasError('required')" class="badge badge-danger">this is required</div>
+      <input formControlName="firstName" placeholder="First Name" name="firstName" class="form-control" id="firstName">
+    </div>
+
+    <div class="form-group">
+      <label for="lastName">Last Name:</label>
+      &nbsp;<div *ngIf="addForm.controls['lastName'].hasError('required')" class="badge badge-danger">this is required</div>
+      <input formControlName="lastName" placeholder="Last name" name="lastName" class="form-control" id="lastName">
+    </div>
+
+    <div class="form-group">
+      <label for="age">Age:</label>
+      &nbsp;<div *ngIf="addForm.controls['age'].hasError('required')" class="badge badge-danger">this is required</div>
+      <input type="number" formControlName="age" placeholder="age" name="age" class="form-control" id="age">
+    </div>
+
+    <div class="form-group">
+      <label for="salary">Salary:</label>
+      &nbsp;<div *ngIf="addForm.controls['salary'].hasError('required')" class="badge badge-danger">this is required</div>
+      <input type="number" formControlName="salary" placeholder="salary" name="salary" class="form-control" id="salary">
+    </div>
+
+    <!-- button class="btn btn-success">Update</button -->
+    <button class="btn btn-success">Add</button>
+  </form>
+</div>

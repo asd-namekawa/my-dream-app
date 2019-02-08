@@ -1,0 +1,212 @@
+<div class="col-md-6 user-container">
+  <h2 style="margin: auto"> User Details</h2>
+  <button class="btn btn-danger" style="width:100px" (click)="addUser()"> Add User</button>
+  <cdk-virtual-scroll-viewport itemSize="50" class="example-viewport" scroll-directive (onScroll)="track($event)" >
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th class="hidden">Id</th>
+      <th>FirstName</th>
+      <th>LastName</th>
+      <th>UserName</th>
+      <th>Age</th>
+      <th>Salary</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *cdkVirtualFor="let user of users" class="example-item">
+      <td class="hidden">{{user.id}}</td>
+      <td>{{user.firstName}}</td>
+      <td>{{user.lastName}}</td>
+      <td>{{user.username}}</td>
+      <td>{{user.age}}</td>
+      <td>{{user.salary}}</td>
+      <td><button class="btn btn-success" (click)="deleteUser(user)"> Delete</button>
+        <button class="btn btn-success" (click)="editUser(user)" style="margin-left: 20px;"> Edit</button></td>
+    </tr>
+    </tbody>
+  </table>
+  </cdk-virtual-scroll-viewport>
+
+  <br />
+
+  <form [formGroup]="filterForm">
+    <div class="form-group">
+      <label for="id">id:</label>
+      <input type="text" formControlName="id" placeholder="id" name="id" class="form-control" id="id" (keyup)="filterId()">
+    </div>
+    <div class="form-group">
+      <label for="username">User Name:</label>
+      <input type="text" formControlName="username" placeholder="username" name="username" class="form-control" id="username">
+    </div>
+
+    <div class="form-group">
+      <label for="firstName">First Name:</label>
+      <input formControlName="firstName" placeholder="First Name" name="firstName" class="form-control" id="firstName">
+    </div>
+
+    <div class="form-group">
+      <label for="lastName">Last Name:</label>
+      <input formControlName="lastName" placeholder="Last name" name="lastName" class="form-control" id="lastName">
+    </div>
+
+    <div class="form-group">
+      <label for="age">Age:</label>
+      <input type="number" formControlName="age" placeholder="age" name="age" class="form-control" id="age">
+    </div>
+
+    <div class="form-group">
+      <label for="salary">Salary:</label>
+      <input type="number" formControlName="salary" placeholder="salary" name="salary" class="form-control" id="salary">
+    </div>
+  </form>
+
+  <ng-http-loader backgroundColor="#ff0000" spinner="sk-three-bounce"></ng-http-loader>
+</div>
+
+
+<!-- 無限スクロール＆仮想スクロール
+<div class="col-md-6 user-container">
+  <h2 style="margin: auto"> User Details</h2>
+  <button class="btn btn-danger" style="width:100px" (click)="addUser()"> Add User</button>
+  <cdk-virtual-scroll-viewport itemSize="50" class="example-viewport" scroll-directive (onScroll)="track($event)" >
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th class="hidden">Id</th>
+      <th>FirstName</th>
+      <th>LastName</th>
+      <th>UserName</th>
+      <th>Age</th>
+      <th>Salary</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *cdkVirtualFor="let user of users" class="example-item">
+      <td class="hidden">{{user.id}}</td>
+      <td>{{user.firstName}}</td>
+      <td>{{user.lastName}}</td>
+      <td>{{user.username}}</td>
+      <td>{{user.age}}</td>
+      <td>{{user.salary}}</td>
+      <td><button class="btn btn-success" (click)="deleteUser(user)"> Delete</button>
+        <button class="btn btn-success" (click)="editUser(user)" style="margin-left: 20px;"> Edit</button></td>
+    </tr>
+    </tbody>
+  </table>
+  </cdk-virtual-scroll-viewport>
+<ng-http-loader backgroundColor="#ff0000" spinner="sk-three-bounce"></ng-http-loader>
+</div>
+-->
+
+<!-- ページング完成版
+<div class="col-md-6 user-container">
+  <h2 style="margin: auto"> User Details</h2>
+  <button class="btn btn-danger" style="width:100px" (click)="addUser()"> Add User</button>
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th class="hidden">Id</th>
+      <th>FirstName</th>
+      <th>LastName</th>
+      <th>UserName</th>
+      <th>Age</th>
+      <th>Salary</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let user of users | paginate: { id: 'server', itemsPerPage: perPage, currentPage: p, totalItems: total }">
+      <td class="hidden">{{user.id}}</td>
+      <td>{{user.firstName}}</td>
+      <td>{{user.lastName}}</td>
+      <td>{{user.username}}</td>
+      <td>{{user.age}}</td>
+      <td>{{user.salary}}</td>
+      <td><button class="btn btn-success" (click)="deleteUser(user)"> Delete</button>
+        <button class="btn btn-success" (click)="editUser(user)" style="margin-left: 20px;"> Edit</button></td>
+    </tr>
+    </tbody>
+  </table>
+    
+  <div class="has-text-centered">
+      <pagination-controls (pageChange)="getPage($event)" id="server"></pagination-controls>
+  </div>
+  <ng-http-loader backgroundColor="#000000" spinner="sk-wandering-cubes"></ng-http-loader>
+
+  <ng-http-loader backgroundColor="#ff0000" spinner="sk-chasing-dots"></ng-http-loader>
+  <ng-http-loader backgroundColor="#ff0000" spinner="sk-cube-grid"></ng-http-loader>
+  <ng-http-loader backgroundColor="#ff0000" spinner="sk-double-bounce"></ng-http-loader>
+  <ng-http-loader backgroundColor="#ff0000" spinner="sk-rotating-plane"></ng-http-loader>
+  <ng-http-loader backgroundColor="#ff0000" spinner="sk-spinner-pulse"></ng-http-loader>
+  <ng-http-loader backgroundColor="#ff0000" spinner="sk-three-bounce"></ng-http-loader>
+  <ng-http-loader backgroundColor="#ff0000" spinner="sk-wandering-cubes"></ng-http-loader>
+  <ng-http-loader backgroundColor="#ff0000" spinner="sk-wave"></ng-http-loader>
+
+</div>
+-->
+
+<!-- 修正前
+<div class="col-md-6 user-container">
+  <h2 style="margin: auto"> User Details</h2>
+  <button class="btn btn-danger" style="width:100px" (click)="addUser()"> Add User</button>
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th class="hidden">Id</th>
+      <th>FirstName</th>
+      <th>LastName</th>
+      <th>UserName</th>
+      <th>Age</th>
+      <th>Salary</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let user of users">
+      <td class="hidden">{{user.id}}</td>
+      <td>{{user.firstName}}</td>
+      <td>{{user.lastName}}</td>
+      <td>{{user.username}}</td>
+      <td>{{user.age}}</td>
+      <td>{{user.salary}}</td>
+      <td><button class="btn btn-success" (click)="deleteUser(user)"> Delete</button>
+        <button class="btn btn-success" (click)="editUser(user)" style="margin-left: 20px;"> Edit</button></td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+-->
+<!-- 自前のページング
+<div class="col-md-6 user-container">
+  <h2 style="margin: auto"> User Details</h2>
+  <button class="btn btn-danger" style="width:100px" (click)="addUser()"> Add User</button>
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th class="hidden">Id</th>
+      <th>FirstName</th>
+      <th>LastName</th>
+      <th>UserName</th>
+      <th>Age</th>
+      <th>Salary</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let user of users | slice: begin: begin+length">
+      <td class="hidden">{{user.id}}</td>
+      <td>{{user.firstName}}</td>
+      <td>{{user.lastName}}</td>
+      <td>{{user.username}}</td>
+      <td>{{user.age}}</td>
+      <td>{{user.salary}}</td>
+      <td><button class="btn btn-success" (click)="deleteUser(user)"> Delete</button>
+        <button class="btn btn-success" (click)="editUser(user)" style="margin-left: 20px;"> Edit</button></td>
+    </tr>
+    </tbody>
+  </table>
+  <ul class="pagination">
+    <li *ngFor="let page of pagerArray; index as i">
+        <a class="page-link" href="javascript:void(0)" (click)="pager(i)">{{i+1}}</a>
+    </li>
+  </ul>
+</div>
+-->
